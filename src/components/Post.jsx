@@ -1,11 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import { getSingPost, removePost, tapped } from "../features/posts/postSlice";
+import { selectById } from "../features/posts/postSlice";
+import { deletePost } from "../features/posts/postsThunk";
 
 const Post = ({ id }) => {
   const navigate = useNavigate();
-  const post = useSelector((state) => getSingPost(state, id));
+  const post = useSelector((state) => selectById(state, id));
   const dispatch = useDispatch();
   return (
     <div
@@ -28,7 +29,7 @@ const Post = ({ id }) => {
           Edit
         </button>
         <button
-          onClick={() => dispatch(removePost({ id }))}
+          onClick={() => dispatch(deletePost({ id, post }))}
           style={{ color: "red" }}
         >
           delete

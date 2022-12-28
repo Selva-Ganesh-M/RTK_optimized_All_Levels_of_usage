@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
-import { getPosts } from "./postsThunk";
+import { getPosts, addPost, updatePost, deletePost } from "./postsThunk";
 
 const postsAdapter = createEntityAdapter({});
 const initialState = postsAdapter.getInitialState({
@@ -22,10 +22,22 @@ const postsSlice = createSlice({
       .addCase(getPosts.rejected, (state, action) => {
         state.status = "error";
         state.error = action.payload.message;
+      })
+      .addCase(addPost.fulfilled, (state, action) => {
+        postsAdapter.addOne(state, action.payload);
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        postsAdapter.upsertOne(state, action.payload);
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        console.log(action.payload);
+        postsAdapter.removeOne(state, action.payload.id);
       });
   },
 });
 
-export const { selectAll } = postsAdapter.getSelectors((state) => state.posts);
+export const { selectAll, selectById } = postsAdapter.getSelectors(
+  (state) => state.posts
+);
 
 export default postsSlice.reducer;

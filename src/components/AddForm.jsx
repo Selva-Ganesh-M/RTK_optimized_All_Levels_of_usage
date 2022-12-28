@@ -1,8 +1,8 @@
 import React from "react";
 import { Formik } from "formik";
-// import { addPost } from "../features/posts/postSlice";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { addPost } from "../features/posts/postsThunk";
 
 const AddForm = () => {
   const dispatch = useDispatch();

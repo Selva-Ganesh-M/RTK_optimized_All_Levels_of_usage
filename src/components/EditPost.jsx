@@ -2,16 +2,17 @@ import { Field, Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-// import { getSingPost, updatePost } from "../features/posts/postSlice";
+import { selectById } from "../features/posts/postSlice";
+import { updatePost } from "../features/posts/postsThunk";
 
 const EditPost = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const post = useSelector((state) => getSingPost(state, id));
+  const post = useSelector((state) => selectById(state, id));
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     console.log("values:", values);
-    dispatch(updatePost(values));
+    dispatch(updatePost(values, id));
     setSubmitting(false);
     resetForm();
     navigate("/");

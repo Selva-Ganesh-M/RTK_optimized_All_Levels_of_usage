@@ -18,13 +18,13 @@ const App = () => {
             exact
             path="/"
             element={
-              <Test />
-              // <PostsList>
-              //   <AddForm />
-              // </PostsList>
+              // <Test />
+              <PostsList>
+                <AddForm />
+              </PostsList>
             }
           />
-          {/* <Route exact path="/edit/:id" element={<EditPost />} /> */}
+          <Route exact path="/edit/:id" element={<EditPost />} />
         </Routes>
       </Router>
     </div>
