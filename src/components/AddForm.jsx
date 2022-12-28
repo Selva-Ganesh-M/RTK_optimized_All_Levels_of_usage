@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik } from "formik";
-import { addPost } from "../features/postSlice";
+// import { addPost } from "../features/posts/postSlice";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 

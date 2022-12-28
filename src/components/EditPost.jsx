@@ -2,7 +2,7 @@ import { Field, Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getSingPost, updatePost } from "../features/postSlice";
+// import { getSingPost, updatePost } from "../features/posts/postSlice";
 
 const EditPost = () => {
   let { id } = useParams();

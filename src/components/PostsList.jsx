@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { getPosts } from "../features/postSlice";
+// import { getPosts } from "../features/posts/postSlice";
 import Post from "./Post";
 
 const PostsList = ({ children }) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getSingPost, removePost, tapped } from "../features/postSlice";
+// import { getSingPost, removePost, tapped } from "../features/posts/postSlice";
 
 const Post = ({ id }) => {
   const navigate = useNavigate();
