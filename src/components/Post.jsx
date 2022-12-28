@@ -1,13 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingPost, tapped } from "../features/postSlice";
+import { useNavigate } from "react-router-dom";
+import { getSingPost, removePost, tapped } from "../features/postSlice";
 
 const Post = ({ id }) => {
+  const navigate = useNavigate();
   const post = useSelector((state) => getSingPost(state, id));
   const dispatch = useDispatch();
   return (
     <div
-      onClick={() => dispatch(tapped(id))}
       style={{
         border: "1px solid black",
         display: "flex",
@@ -17,8 +18,22 @@ const Post = ({ id }) => {
         fontSize: "1.3em",
       }}
     >
-      <div>{post.title}</div>
+      <div onClick={() => dispatch(tapped(id))}>{post.title}</div>
       {post.taps}
+      <div>
+        <button
+          onClick={() => navigate(`/edit/${id}`)}
+          style={{ color: "blue" }}
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => dispatch(removePost({ id }))}
+          style={{ color: "red" }}
+        >
+          delete
+        </button>
+      </div>
     </div>
   );
 };

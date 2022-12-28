@@ -5,12 +5,12 @@ const postSlice = createSlice({
   initialState: [
     {
       title: "selva",
-      id: 1,
+      id: "1",
       taps: 0,
     },
     {
       title: "ganesh",
-      id: 2,
+      id: "2",
       taps: 0,
     },
   ],
@@ -24,9 +24,25 @@ const postSlice = createSlice({
         return { payload: editedPost };
       },
     },
+    removePost: (state, action) => {
+      console.log(action);
+      const { id } = action.payload;
+      const updatedState = state.filter((post) => {
+        console.log(post.id, id);
+        return post.id !== id;
+      });
+      console.log(updatedState);
+      return updatedState;
+    },
+    updatePost: (state, action) => {
+      const post = action.payload;
+      const posts = state.filter((item) => item.id !== post.id);
+      return [...posts, { ...post, taps: 0 }];
+    },
     tapped: (state, action) => {
       console.log(action);
       const post = state.find((post) => post.id === action.payload);
+      if (!post) return state;
       post.taps = post.taps + 1;
     },
   },
@@ -40,5 +56,5 @@ export const getSingPost = (state, postId) => {
   return post;
 };
 
-export const { addPost, tapped } = postSlice.actions;
+export const { addPost, tapped, removePost, updatePost } = postSlice.actions;
 export default postSlice.reducer;

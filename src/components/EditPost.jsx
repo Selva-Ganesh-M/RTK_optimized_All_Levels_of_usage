@@ -1,27 +1,32 @@
+import { Field, Formik } from "formik";
 import React from "react";
-import { Formik } from "formik";
-import { addPost } from "../features/postSlice";
-import { useDispatch } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { getSingPost, updatePost } from "../features/postSlice";
 
-const AddForm = () => {
+const EditPost = () => {
+  let { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const post = useSelector((state) => getSingPost(state, id));
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    console.log("values:", values);
+    dispatch(updatePost(values));
+    setSubmitting(false);
+    resetForm();
+    navigate("/");
+  };
   return (
     <div>
-      <h1>Add new Post!</h1>
+      <h1>Edit Post!</h1>
       <Formik
-        initialValues={{ id: uuidv4(), title: "" }}
+        initialValues={{ id: post.id, title: post.title }}
         validate={(values) => {
           const errors = {};
           if (!values.title) errors.title = "Required";
           return errors;
         }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          console.log("values:", values);
-          dispatch(addPost(values));
-          setSubmitting(false);
-          resetForm();
-        }}
+        onSubmit={handleSubmit}
       >
         {({
           values,
@@ -34,7 +39,8 @@ const AddForm = () => {
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
-            <input
+            <Field
+              placeholder={`${post.title}`}
               type="text"
               name="title"
               onChange={handleChange}
@@ -52,4 +58,4 @@ const AddForm = () => {
   );
 };
 
-export default AddForm;
+export default EditPost;
