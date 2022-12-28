@@ -1,5 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
+const postsAdapter = createEntityAdapter({
+  // sortComparer: (a, b) => b.date.localeCompare(a.date)
+  //   selectId: (post) => post.id,
+});
+
+const initialState = postsAdapter.getInitialState({
+  status: "idle",
+  error: "",
+});
+console.log("initial state created ");
 const postSlice = createSlice({
   name: "posts",
   initialState: [
@@ -15,14 +25,11 @@ const postSlice = createSlice({
     },
   ],
   reducers: {
-    addPost: {
-      reducer: (state, action) => {
-        state.push(action.payload);
-      },
-      prepare: (post) => {
-        const editedPost = { ...post, taps: 0 };
-        return { payload: editedPost };
-      },
+    addPost: (state, action) => {
+      const post = action.payload;
+      post.taps = 0;
+      console.log("inside addpost:", post);
+      postsAdapter.addOne(state, post);
     },
     removePost: (state, action) => {
       console.log(action);
@@ -48,13 +55,16 @@ const postSlice = createSlice({
   },
 });
 
-export const getPosts = (state) => {
-  return state.posts;
-};
-export const getSingPost = (state, postId) => {
-  const post = state.posts.find((post) => post.id === postId);
-  return post;
-};
+// export const getPosts = (state) => {
+//   return state.posts;
+// };
+// export const getSingPost = (state, postId) => {
+//   const post = state.posts.find((post) => post.id === postId);
+//   return post;
+// };
+
+export const { selectAll: getPosts, selectById: getSingPost } =
+  postsAdapter.getSelectors((state) => state.posts);
 
 export const { addPost, tapped, removePost, updatePost } = postSlice.actions;
 export default postSlice.reducer;
